@@ -227,6 +227,7 @@ static void http_serve(struct netconn *conn) {
   const static char* TAG = "http_server";
   const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   const static char HISTORY_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+  const static char CHART_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   const static char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   //const static char HISTORYJS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   const static char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
@@ -244,22 +245,25 @@ static void http_serve(struct netconn *conn) {
   extern const uint8_t root_html_end[] asm("_binary_root_html_end");
   const uint32_t root_html_len = root_html_end - root_html_start;
 
+  extern const uint8_t chart_html_start[] asm("_binary_chart_html_start");
+  extern const uint8_t chart_html_end[] asm("_binary_chart_html_end");
+  const uint32_t chart_html_len = chart_html_end - chart_html_start;
   // test.js
   extern const uint8_t test_js_start[] asm("_binary_test_js_start");
   extern const uint8_t test_js_end[] asm("_binary_test_js_end");
   const uint32_t test_js_len = test_js_end - test_js_start;
 
-  extern const uint8_t history_js_start[] asm("_binary_history_js_start");
-  extern const uint8_t history_js_end[] asm("_binary_history_js_end");
-  const uint32_t history_js_len = history_js_end - history_js_start;
+  //extern const uint8_t history_js_start[] asm("_binary_history_js_start");
+  //extern const uint8_t history_js_end[] asm("_binary_history_js_end");
+  //const uint32_t history_js_len = history_js_end - history_js_start;
 
   extern const uint8_t test_css_start[] asm("_binary_test_css_start");
   extern const uint8_t test_css_end[] asm("_binary_test_css_end");
   const uint32_t test_css_len = test_css_end - test_css_start;
 
-  //extern const uint8_t history_html_start[] asm("_binary_history_html_start");
-  //extern const uint8_t history_html_end[] asm("_binary_history_html_end");
-  //const uint32_t history_html_len = history_html_end - history_html_start;
+  extern const uint8_t history_html_start[] asm("_binary_history_html_start");
+  extern const uint8_t history_html_end[] asm("_binary_history_html_end");
+  const uint32_t history_html_len = history_html_end - history_html_start;
 
 // allow a connection timeout of 1 second
   netconn_set_recvtimeout(conn,1000); 
@@ -326,7 +330,15 @@ static void http_serve(struct netconn *conn) {
         netconn_delete(conn);
         netbuf_delete(inbuf);
       }
-           
+            else if(strstr(buf,"GET /chart.html ")) {
+        ESP_LOGI(TAG,"Sending /chart.html");
+        netconn_write(conn, CHART_HEADER, sizeof(CHART_HEADER)-1,NETCONN_NOCOPY);
+        netconn_write(conn, chart_html_start, chart_html_len,NETCONN_NOCOPY);
+        netconn_close(conn);
+        netconn_delete(conn);
+        netbuf_delete(inbuf);
+      }
+
       else {
         ESP_LOGI(TAG,"Unknown request");
         netconn_close(conn);
@@ -424,11 +436,12 @@ void app_main(void)
     ESP_ERROR_CHECK(ret);
     ESP_LOGI(WIF, "ESP_WIFI_MODE_STA");
     wifi_init_sta();
-
+    
   ws_server_start();
   xTaskCreate(&server_task,"server_task",3000,NULL,9,NULL);
   xTaskCreate(&server_handle_task,"server_handle_task",4000,NULL,6,NULL);  
   //thermokrasia task in loop
   xTaskCreate(&thermokrasia,"thermokrasia",6000,NULL,2,NULL);
-    //tempcalc();
+  tempcalc();
+
 }

@@ -22,7 +22,6 @@ websocket.onmessage = function(evt) {
 }
 
 
-
 websocket.onclose = function(evt) {
     console.log('Websocket connection closed');
     document.getElementById("test").innerHTML = "WebSocket closed";

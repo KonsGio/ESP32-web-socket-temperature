@@ -3,8 +3,7 @@
 
 <head>
     <script>
-        window.onload = function() {
-
+        window.onload = function(evt) {
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light2", // "light1", "light2", "dark1", "dark2"
                 animationEnabled: true,
@@ -17,15 +16,16 @@
                     dataPoints: []
                 }]
             });
-
             addDataPoints(1000);
             chart.render();
 
+            var temp = evt.data;
+
             function addDataPoints(noOfDps) {
                 var xVal = chart.options.data[0].dataPoints.length + 1,
-                    yVal = 100;
+                    yVal = 0;
                 for (var i = 0; i < noOfDps; i++) {
-                    yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+                    yVal = temp;
                     chart.options.data[0].dataPoints.push({
                         x: xVal,
                         y: yVal
@@ -33,7 +33,6 @@
                     xVal++;
                 }
             }
-
         }
     </script>
 </head>
