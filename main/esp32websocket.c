@@ -20,7 +20,7 @@
 #include "esp_adc_cal.h"
 
 #define DEFAULT_VREF    1200    
-#define NO_OF_SAMPLES   64       
+#define NO_OF_SAMPLES   500       
 #define EXAMPLE_ESP_WIFI_SSID      CONFIG_ESP_WIFI_SSID
 #define EXAMPLE_ESP_WIFI_PASS      CONFIG_ESP_WIFI_PASSWORD
 #define EXAMPLE_ESP_MAXIMUM_RETRY  CONFIG_ESP_MAXIMUM_RETRY
@@ -226,8 +226,8 @@ void websocket_callback(uint8_t num,WEBSOCKET_TYPE_t type,char* msg,uint64_t len
 static void http_serve(struct netconn *conn) {
   const static char* TAG = "http_server";
   const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-  const static char HISTORY_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-  const static char CHART_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+  //const static char HISTORY_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+  //const static char CHART_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   const static char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   //const static char HISTORYJS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   const static char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
@@ -244,18 +244,10 @@ static void http_serve(struct netconn *conn) {
   extern const uint8_t root_html_start[] asm("_binary_root_html_start");
   extern const uint8_t root_html_end[] asm("_binary_root_html_end");
   const uint32_t root_html_len = root_html_end - root_html_start;
-
-  extern const uint8_t chart_html_start[] asm("_binary_chart_html_start");
-  extern const uint8_t chart_html_end[] asm("_binary_chart_html_end");
-  const uint32_t chart_html_len = chart_html_end - chart_html_start;
   // test.js
   extern const uint8_t test_js_start[] asm("_binary_test_js_start");
   extern const uint8_t test_js_end[] asm("_binary_test_js_end");
   const uint32_t test_js_len = test_js_end - test_js_start;
-
-  //extern const uint8_t history_js_start[] asm("_binary_history_js_start");
-  //extern const uint8_t history_js_end[] asm("_binary_history_js_end");
-  //const uint32_t history_js_len = history_js_end - history_js_start;
 
   extern const uint8_t test_css_start[] asm("_binary_test_css_start");
   extern const uint8_t test_css_end[] asm("_binary_test_css_end");
@@ -311,29 +303,12 @@ static void http_serve(struct netconn *conn) {
         netconn_delete(conn);
         netbuf_delete(inbuf);
       }
-
-     /* else if(strstr(buf,"GET /history.js ")) {
-        ESP_LOGI(TAG,"Sending /history.js");
-        netconn_write(conn, HISTORYJS_HEADER, sizeof(HISTORYJS_HEADER)-1,NETCONN_NOCOPY);
-        netconn_write(conn, history_js_start, history_js_len,NETCONN_NOCOPY);
-        netconn_close(conn);
-        netconn_delete(conn);
-        netbuf_delete(inbuf);
-      }*/
       
       //history.html send
         else if(strstr(buf,"GET /history.html ")) {
         ESP_LOGI(TAG,"Sending /history.html");
-        netconn_write(conn, HISTORY_HEADER, sizeof(HISTORY_HEADER)-1,NETCONN_NOCOPY);
+        netconn_write(conn, HTML_HEADER, sizeof(HTML_HEADER)-1,NETCONN_NOCOPY);
         netconn_write(conn, history_html_start, history_html_len,NETCONN_NOCOPY);
-        netconn_close(conn);
-        netconn_delete(conn);
-        netbuf_delete(inbuf);
-      }
-            else if(strstr(buf,"GET /chart.html ")) {
-        ESP_LOGI(TAG,"Sending /chart.html");
-        netconn_write(conn, CHART_HEADER, sizeof(CHART_HEADER)-1,NETCONN_NOCOPY);
-        netconn_write(conn, chart_html_start, chart_html_len,NETCONN_NOCOPY);
         netconn_close(conn);
         netconn_delete(conn);
         netbuf_delete(inbuf);
