@@ -1,8 +1,8 @@
 body {
     font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 16px;
-    color: #333333;
-    background-color: #F9F9F9;
+    color: #fde0e0;
+    background-color: #b90808;
     text-align: center;
 }
 
@@ -19,43 +19,43 @@ li {
 h1 {
     font-size: 250%;
     font-weight: bold;
-    color: #000000;
+    color: #ffffff;
     text-align: center;
 }
 
 h2 {
     font-size: 200%;
     font-weight: bold;
-    color: #000000;
+    color: #ffffff;
     border-bottom: 1px solid #C6EC8C;
 }
 
 a:link {
-    color: #00CC00;
+    color: #e4c6c6;
     text-decoration: underline;
     font-weight: bold;
 }
 
 li a:link {
-    color: #00CC00;
+    color: #e4c6c6;
     text-decoration: none;
     font-weight: bold;
 }
 
 a:visited {
-    color: #00CC00;
+    color: #e4c6c6;
     text-decoration: underline;
     font-weight: bold;
 }
 
 li a:visited {
-    color: #00CC00;
+    color: #e4c6c6;
     text-decoration: none;
     font-weight: bold;
 }
 
 a:hover {
-    color: rgb(0, 96, 255);
+    color: rgb(109, 4, 4);
     padding-bottom: 5px;
     font-weight: bold;
     text-decoration: underline;
@@ -63,7 +63,7 @@ a:hover {
 
 li a:hover {
     display: block;
-    color: rgb(0, 96, 255);
+    color: rgb(109, 4, 4);
     padding-bottom: 5px;
     font-weight: bold;
     border-bottom-width: 1px;
@@ -72,6 +72,6 @@ li a:hover {
 }
 
 a:active {
-    color: rgb(255, 0, 102);
+    color: rgb(109, 4, 4);
     font-weight: bold;
 }
