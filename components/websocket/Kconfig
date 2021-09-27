@@ -29,7 +29,7 @@ config WEBSOCKET_SERVER_QUEUE_TIMEOUT
 config WEBSOCKET_SERVER_TASK_STACK_DEPTH
   int "Stack depth"
   range 3000 20000
-  default 6000
+  default 8000
   help
     Stack depth for the WebSocket server. The task
     handles reads.
@@ -44,7 +44,7 @@ config WEBSOCKET_SERVER_TASK_PRIORITY
 
 config WEBSOCKET_SERVER_PINNED
   bool "Server pinned to core"
-  default false
+  default true
   help
     Pin the WebSocket server task to a specific core.
     The task handles reads.
@@ -53,7 +53,7 @@ config WEBSOCKET_SERVER_PINNED_CORE
   int "Pinned core"
   depends on WEBSOCKET_SERVER_PINNED
   range 0 1
-  default 0
+  default 1
   help
     Core that the WebSocket server is pinned to.
     The task handles reads.

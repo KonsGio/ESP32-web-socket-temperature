@@ -1,6 +1,6 @@
 body {
     font-family: Georgia, "Times New Roman", Times, serif;
-    font-size: 16px;
+    font-size: 20px;
     color: #fde0e0;
     background-color: #b90808;
     text-align: center;
@@ -27,7 +27,7 @@ h2 {
     font-size: 200%;
     font-weight: bold;
     color: #ffffff;
-    border-bottom: 1px solid #C6EC8C;
+    border-bottom: 5px solid #C6EC8C;
 }
 
 a:link {

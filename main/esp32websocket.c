@@ -226,10 +226,7 @@ void websocket_callback(uint8_t num,WEBSOCKET_TYPE_t type,char* msg,uint64_t len
 static void http_serve(struct netconn *conn) {
   const static char* TAG = "http_server";
   const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-  //const static char HISTORY_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-  //const static char CHART_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
   const static char JS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
-  //const static char HISTORYJS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/javascript\n\n";
   const static char CSS_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/css\n\n";
   //const static char PNG_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/png\n\n";
   //const static char ICO_HEADER[] = "HTTP/1.1 200 OK\nContent-type: image/x-icon\n\n";
@@ -358,9 +355,6 @@ static void server_task(void* pvParameters) {
   netconn_close(conn);
   netconn_delete(conn);
   ESP_LOGE(TAG,"task ending, rebooting board");
-
-
-
   esp_restart();
 }
 
