@@ -371,7 +371,7 @@ static void server_handle_task(void* pvParameters) {
   vTaskDelete(NULL);
 }
 
-//temperature insto string and broadcasted
+//temperature to string and broadcasted
 static void thermokrasia(void* pvParameters) {
   const static char* TAG = "thermokrasia";
   char out[20];
@@ -409,8 +409,7 @@ void app_main(void)
   ws_server_start();
   xTaskCreate(&server_task,"server_task",3000,NULL,9,NULL);
   xTaskCreate(&server_handle_task,"server_handle_task",4000,NULL,6,NULL);  
-  //thermokrasia task in loop
   xTaskCreate(&thermokrasia,"thermokrasia",6000,NULL,2,NULL);
   tempcalc();
-
+  
 }
